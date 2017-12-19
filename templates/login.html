@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html>
 <head>
 
   <!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
@@ -23,16 +21,11 @@
           <div id="signinButton">
           <span class="g-signin"
             data-scope="openid email"
-            data-clientid="319778553528-7jdi08t2a4cmrql5utbf8jmv6tb8n7d2.apps.googleusercontent.com"
-              {#  sets a post message, enables the one time use code flow#}
+            data-clientid="YOUR_CLIENT_ID_GOES_HERE.apps.googleusercontent.com"
             data-redirecturi="postmessage"
-              {#  offline means the server can make requests to the google api server even if the user isn't logged in    #}
             data-accesstype="offline"
-              {#  determines the scope of URI's that can access the cookie. We use single host if our site only has one host name and no subdomains #}
             data-cookiepolicy="single_host_origin"
-              {#  specifies a callback function--if the user clicks and grants our app access to their profile, this callback method is called, and given the one time use code, along with an access token#}
             data-callback="signInCallback"
-              {#  force means our user has to login each time they visit the login page, and doesn't check to see if they're already logged in. This is good for debugging but should be removed in production.#}
             data-approvalprompt="force">
           </span>
         </div>
@@ -48,11 +41,8 @@ function signInCallback(authResult) {
     $.ajax({
       type: 'POST',
       url: '/gconnect?state={{STATE}}',
-      {#  processData: false means we don't want jQuery to process the data into a string #}
       processData: false,
-      {#  specifies the data we're sending to our server--the one-time use 'code' #}
       data: authResult['code'],
-      {#  contentType here shows we are sending binary #}
       contentType: 'application/octet-stream; charset=utf-8',
       success: function(result) {
         // Handle or verify the server response if necessary.
@@ -61,32 +51,28 @@ function signInCallback(authResult) {
          setTimeout(function() {
           window.location.href = "/restaurant";
          }, 4000);
-
       } else if (authResult['error']) {
     console.log('There was an error: ' + authResult['error']);
   } else {
         $('#result').html('Failed to make a server-side call. Check your configuration and console.');
          }
       }
-
   }); } }
 </script>
 
+
+
 <!--END GOOGLE PLUS SIGN IN -->
-
-
-
-
 
 <!--FACEBOOK SIGN IN -->
 <script>
   window.fbAsyncInit = function() {
   FB.init({
-    appId      : '320931578397048',
+    appId      : 'PASTE_YOUR_APP_ID_HERE',
     cookie     : true,  // enable cookies to allow the server to access
                         // the session
     xfbml      : true,  // parse social plugins on this page
-    version    : 'v2.11' // use version 2.2 -->changed to 2.11
+    version    : 'v2.8' // use version 2.8
   });
   };
   // Load the SDK asynchronously
@@ -118,12 +104,10 @@ function signInCallback(authResult) {
          setTimeout(function() {
           window.location.href = "/restaurant";
          }, 4000);
-
       } else {
         $('#result').html('Failed to make a server-side call. Check your configuration and console.');
          }
       }
-
   });
     });
   }
@@ -131,11 +115,15 @@ function signInCallback(authResult) {
 
 
 <button>
-  <fb:login-button scope="public_profile,email" onlogin="sendTokenToServer();">
-    <a href='javascript:sendTokenToServer()'>Login with Facebook</a>
-  </fb:login-button>
-</button>
 
+
+          <fb:login-button scope="public_profile,email" onlogin="sendTokenToServer();">
+<a href='javascript:sendTokenToServer()'>Login with Facebook</a>
+
+</fb:login-button>
+
+
+        </button>
 <!--END FACEBOOK SIGN IN -->
 
   </body>
