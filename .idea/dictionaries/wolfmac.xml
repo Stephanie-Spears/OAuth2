@@ -1,3 +1,30 @@
 <component name="ProjectDictionaryState">
-  <dictionary name="wolfmac" />
+  <dictionary name="wolfmac">
+    <words>
+      <w>addon</w>
+      <w>apis</w>
+      <w>bootstrapcdn</w>
+      <w>clientsecrets</w>
+      <w>declaratives</w>
+      <w>fbconnect</w>
+      <w>fbdisconnect</w>
+      <w>gconnect</w>
+      <w>gdisconnect</w>
+      <w>glyphicon</w>
+      <w>googleapis</w>
+      <w>googleusercontent</w>
+      <w>gplus</w>
+      <w>httplib</w>
+      <w>jssdk</w>
+      <w>netdna</w>
+      <w>onload</w>
+      <w>postmessage</w>
+      <w>serializeable</w>
+      <w>signin</w>
+      <w>tablename</w>
+      <w>userinfo</w>
+      <w>wolfmac</w>
+      <w>xfbml</w>
+    </words>
+  </dictionary>
 </component>
