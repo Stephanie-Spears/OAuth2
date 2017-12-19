@@ -269,40 +269,50 @@ def getUserID(email):
 # DISCONNECT - Revoke a current user's token and reset their login_session
 @app.route('/gdisconnect')
 def gdisconnect():
-    # Only disconnect a connected user.
     access_token = login_session.get('access_token')
-    if access_token is None:
-        print 'Access Token is None'
-        response = make_response(json.dumps('Current user not connected.'), 401)
-        response.headers['Content-Type'] = 'application/json'
-        return response
-    print 'In gdisconnect access token is %s', access_token
-    print 'User name is: '
-    print login_session['username']
-    # Now we pass the access token into Google's URL for revoking tokens-->
-    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % login_session['access_token']
+    url = 'https://accounts.google.com/o/oauth2/revoke?token={}'.format(access_token)
     h = httplib2.Http()
-    # we store google's response in an object called result
     result = h.request(url, 'GET')[0]
-    print 'result is '
-    print result
-    # if the result was a 200, then it successfully disconnected the user
     if result['status'] == '200':
-        # using del here we delete the credentials below from the login_session object
-        del login_session['access_token']
-        del login_session['gplus_id']
-        del login_session['username']
-        del login_session['email']
-        del login_session['picture']
-        # we create a response to indicate the user was successfully logged out
-        response = make_response(json.dumps('Successfully disconnected.'), 200)
-        response.headers['Content-Type'] = 'application/json'
-        return response
-    # if there was a response other than 200 from google, then we return the error statement to the client
+        return "You have been logged out."
     else:
-        response = make_response(json.dumps('Failed to revoke token for given user.', 400))
+        response = make_response(json.dumps('Failed to revoke token for given user.'), 400)
         response.headers['Content-Type'] = 'application/json'
         return response
+    # # Only disconnect a connected user.
+    # access_token = login_session.get('access_token')
+    # if access_token is None:
+    #     print 'Access Token is None'
+    #     response = make_response(json.dumps('Current user not connected.'), 401)
+    #     response.headers['Content-Type'] = 'application/json'
+    #     return response
+    # print 'In gdisconnect access token is %s', access_token
+    # print 'User name is: '
+    # print login_session['username']
+    # # Now we pass the access token into Google's URL for revoking tokens-->
+    # url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % login_session['access_token']
+    # h = httplib2.Http()
+    # # we store google's response in an object called result
+    # result = h.request(url, 'GET')[0]
+    # print 'result is '
+    # print result
+    # # if the result was a 200, then it successfully disconnected the user
+    # if result['status'] == '200':
+    #     # using del here we delete the credentials below from the login_session object
+    #     del login_session['access_token']
+    #     del login_session['gplus_id']
+    #     del login_session['username']
+    #     del login_session['email']
+    #     del login_session['picture']
+    #     # we create a response to indicate the user was successfully logged out
+    #     response = make_response(json.dumps('Successfully disconnected.'), 200)
+    #     response.headers['Content-Type'] = 'application/json'
+    #     return response
+    # # if there was a response other than 200 from google, then we return the error statement to the client
+    # else:
+    #     response = make_response(json.dumps('Failed to revoke token for given user.', 400))
+    #     response.headers['Content-Type'] = 'application/json'
+    #     return response
 
 
 
